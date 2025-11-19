@@ -32,6 +32,9 @@ private:
 	// Window created by SDL
 	SDL_Window* mWindow;
 
+	// Renderer to draw graphics
+	SDL_Renderer* mRenderer;
+
 	// Game should continue to run while this is true
 	bool mIsRunning;
 
