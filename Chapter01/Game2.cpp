@@ -6,7 +6,14 @@
 
 const int thickness = 15;
 
-Game2::Game2() : mWindow(nullptr), mIsRunning(true), mRenderer(nullptr) {}
+Game2::Game2() : 
+	mWindow(nullptr), 
+	mIsRunning(true), 
+	mRenderer(nullptr),
+	mPaddlePos(Vector2{ 50, 384 }),
+	mBallPos(Vector2{ 512, 384 }),
+	mTicksCount(0)
+{}
 
 bool Game2::initialize() {
 
@@ -20,6 +27,7 @@ bool Game2::initialize() {
 		SDL_Log("Unable to initialize SDL: %s", SDL_GetError);
 		return false;
 	}
+	
 
 	// Create a window
 	mWindow = SDL_CreateWindow(
@@ -125,10 +133,28 @@ void Game2::generateOutput() {
 	SDL_RenderClear(mRenderer);
 
 	// Step 2: Draw the entire game scene
-
+	
 	// Change the draw color so it is not the same as the background
 	SDL_SetRenderDrawColor(mRenderer, 255, 255, 255, 255);
+	
+	// Create the ball (converting the x, y coords from center to top left for SDL_Rect)
+	SDL_Rect ball{
+		static_cast<int>(mBallPos.x - thickness / 2),
+		static_cast<int>(mBallPos.y - thickness / 2),
+		thickness,
+		thickness
+	};
+	SDL_RenderFillRect(mRenderer, &ball);
 
+	// Draw the paddle
+	SDL_Rect paddle{
+		static_cast<int>(mPaddlePos.x - thickness / 2),
+		static_cast<int>(mPaddlePos.y - thickness / 2),
+		thickness,
+		100
+	};
+	SDL_RenderFillRect(mRenderer, &paddle);
+	
 	// Create a rectangle with specific dimensions
 	SDL_Rect wall{
 		0, // Top left x
@@ -137,7 +163,18 @@ void Game2::generateOutput() {
 		thickness, // Height
 	};
 
-	// Draw the rectangle
+	// Draw the top wall
+	SDL_RenderFillRect(mRenderer, &wall);
+
+	// Draw the bottom wall
+	wall.y = 768 - thickness;
+	SDL_RenderFillRect(mRenderer, &wall);
+
+	// Draw the right wall
+	wall.x = 1024 - thickness;
+	wall.y = 0;
+	wall.w = thickness;
+	wall.h = 1024;
 	SDL_RenderFillRect(mRenderer, &wall);
 
 	// Step 3: Swap the front buffer and back buffer
@@ -146,5 +183,18 @@ void Game2::generateOutput() {
 
 
 void Game2::updateGame() {
+	// Wait until 16ms has elapsed since last frame
+	while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTicksCount + 16));
+	
 
+	// Delta time is the difference in ticks from last frame (converted to seconds)
+	float deltaTime = (SDL_GetTicks() - mTicksCount) / 1000.0f;
+
+	// Update tick counts (for next frame)
+	mTicksCount = SDL_GetTicks();
+
+	// Clamp maximum delta time value
+	if (deltaTime > 0.05f) { deltaTime = 0.05f; }
+
+	// Update objects in game world as function of delta time
 }

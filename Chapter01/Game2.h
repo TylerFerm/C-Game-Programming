@@ -4,6 +4,12 @@
 
 #include "SDL/SDL.h"
 
+// Declare a vector that has both x and y components (a container for coords)
+struct Vector2 {
+	float x;
+	float y;
+};
+
 class Game2
 {
 public:
@@ -37,5 +43,14 @@ private:
 
 	// Game should continue to run while this is true
 	bool mIsRunning;
+
+	// Paddle coords position
+	Vector2 mPaddlePos;
+
+	// Ball coords position
+	Vector2 mBallPos;
+
+	// Keep track of the number of ticks
+	Uint32 mTicksCount;
 
 };
