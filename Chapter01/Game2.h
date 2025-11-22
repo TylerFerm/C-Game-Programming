@@ -53,4 +53,10 @@ private:
 	// Keep track of the number of ticks
 	Uint32 mTicksCount;
 
+	// Direction of paddle
+	int mPaddleDir;
+
+	// Ball velocity
+	Vector2 mBallVel;
+
 };
