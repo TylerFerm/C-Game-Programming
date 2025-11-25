@@ -15,7 +15,7 @@ Game2::Game2() :
 	mBallPos(Vector2{ 512, 384 }),
 	mTicksCount(0),
 	mPaddleDir(0),
-	mBallVel(Vector2{ -200.0f, 0.0f }) // Ball starts moving -200 pixels in x direction and 235 pixels in y direction
+	mBallVel(Vector2{ -200.0f, 235.0f }) // Ball starts moving -200 pixels in x direction and 235 pixels in y direction
 {}
 
 bool Game2::initialize() {
@@ -105,8 +105,6 @@ void Game2::processInput() {
 			break;
 		}
 
-		// Quitting by pressing escape
-
 		// Get the state of the keyboard (an array that contains 1/0 values for each key indicating whether or not they are pressed down)
 		const Uint8* state = SDL_GetKeyboardState(NULL);
 		
@@ -118,10 +116,11 @@ void Game2::processInput() {
 		}
 
 		// If W is pressed, update the direction of the paddle to up
-		if (state[SDL_SCANCODE_W]) { mPaddleDir -= 1; }
+		mPaddleDir = 0;
+		if (state[SDL_SCANCODE_W] || state[SDL_SCANCODE_UP]) { mPaddleDir -= 1; }
 
 		// If S is pressed, update the direction of the paddle to down
-		if (state[SDL_SCANCODE_S]) { mPaddleDir += 1; }
+		if (state[SDL_SCANCODE_S] || state[SDL_SCANCODE_DOWN]) { mPaddleDir += 1; }
 	}
 }
 
@@ -225,17 +224,6 @@ void Game2::updateGame() {
 	mBallPos.x += mBallVel.x * deltaTime;
 	mBallPos.y += mBallVel.y * deltaTime;
 
-	// Reverse the direction of the ball when hitting the top wall
-	// Check to also make sure that the ball is moving toward top wall so it doesn't get stuck
-	if (mBallPos.y <= thickness && mBallVel.y < 0.0f) { mBallVel.y *= -1; }
-
-	// Reverse the direction of the ball when hitting the bottom wall
-	if (mBallPos.y >= 768 - thickness && mBallVel.y > 0.0f) { mBallVel.y *= -1; }
-
-	// Reverse the direction of the ball when hitting the right wall
-	if (mBallPos.x >= 1024 - thickness && mBallVel.x > 0.0f) { mBallVel.x *= -1; }
-
-	// Bounce if needed
 	// Did we intersect with the paddle?
 	float diff = mPaddlePos.y - mBallPos.y;
 	// Take absolute value of difference
@@ -244,10 +232,23 @@ void Game2::updateGame() {
 		// Our y-difference is small enough
 		diff <= paddleH / 2.0f &&
 		// We are in the correct x-position
-		mBallPos.x <= 25.0f && mBallPos.x >= 20.0f &&
+		mBallPos.x <= 60.0f && mBallPos.x >= 55.0f &&
 		// The ball is moving to the left
 		mBallVel.x < 0.0f)
 	{
 		mBallVel.x *= -1.0f;
 	}
+	// End the game if the ball goes off screen
+	else if (mBallPos.x <= 0) { mIsRunning = false; }
+
+	// Reverse the direction of the ball when hitting the right wall
+	else if (mBallPos.x >= 1024 - thickness && mBallVel.x > 0.0f) { mBallVel.x *= -1; }
+
+	
+	// Reverse the direction of the ball when hitting the top wall
+	// Check to also make sure that the ball is moving toward top wall so it doesn't get stuck
+	if (mBallPos.y <= thickness && mBallVel.y < 0.0f) { mBallVel.y *= -1; }
+
+	// Reverse the direction of the ball when hitting the bottom wall
+	else if (mBallPos.y >= 768 - thickness && mBallVel.y > 0.0f) { mBallVel.y *= -1; }	
 }

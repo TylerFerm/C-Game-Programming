@@ -7,8 +7,6 @@
 // ----------------------------------------------------------------
 
 //#include "Game.h"
-#include "Game2.h"
-
 //int main(int argc, char** argv)
 //{
 //	Game game;
@@ -21,6 +19,7 @@
 //	return 0;
 //}
 
+#include "Game2.h"
 int main(int argc, char** argv)
 {
 	Game2 game;
