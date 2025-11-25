@@ -6,16 +6,20 @@
 
 const int thickness = 15;
 const float paddleH = 100.0f;
+const int moveTowardsCenter = 100;
+const int ballIncreaseSpead = 50;
 
 Game2::Game2() : 
 	mWindow(nullptr), 
 	mIsRunning(true), 
 	mRenderer(nullptr),
-	mPaddlePos(Vector2{ 50, 384 }),
+	mPaddlePosP1(Vector2{ 50, 384 }),
+	mPaddlePosP2(Vector2{ 974, 384 }),
 	mBallPos(Vector2{ 512, 384 }),
 	mTicksCount(0),
-	mPaddleDir(0),
-	mBallVel(Vector2{ -200.0f, 235.0f }) // Ball starts moving -200 pixels in x direction and 235 pixels in y direction
+	mPaddleDirP1(0),
+	mPaddleDirP2(0),
+	mBallVel(Vector2{ -200.0f, 235 }) // Ball starts moving -200 pixels in x direction and 235 pixels in y direction
 {}
 
 bool Game2::initialize() {
@@ -115,12 +119,19 @@ void Game2::processInput() {
 			mIsRunning = false;
 		}
 
-		// If W is pressed, update the direction of the paddle to up
-		mPaddleDir = 0;
-		if (state[SDL_SCANCODE_W] || state[SDL_SCANCODE_UP]) { mPaddleDir -= 1; }
+		// If W is pressed, update the direction of the paddle 1 to up
+		mPaddleDirP1 = 0;
+		if (state[SDL_SCANCODE_W]) { mPaddleDirP1 -= 1; }
 
-		// If S is pressed, update the direction of the paddle to down
-		if (state[SDL_SCANCODE_S] || state[SDL_SCANCODE_DOWN]) { mPaddleDir += 1; }
+		// If S is pressed, update the direction of the paddle 1 to down
+		if (state[SDL_SCANCODE_S]) { mPaddleDirP1 += 1; }
+
+		// If W is pressed, update the direction of the paddle 2 to up
+		mPaddleDirP2 = 0;
+		if (state[SDL_SCANCODE_UP]) { mPaddleDirP2 -= 1; }
+
+		// If S is pressed, update the direction of the paddle 2 to down
+		if (state[SDL_SCANCODE_DOWN]) { mPaddleDirP2 += 1; }
 	}
 }
 
@@ -156,8 +167,8 @@ void Game2::generateOutput() {
 
 	// Draw the paddle
 	SDL_Rect paddle{
-		static_cast<int>(mPaddlePos.x),
-		static_cast<int>(mPaddlePos.y - paddleH / 2),
+		static_cast<int>(mPaddlePosP1.x),
+		static_cast<int>(mPaddlePosP1.y - paddleH / 2),
 		thickness,
 		static_cast<int>(paddleH)
 	};
@@ -179,11 +190,21 @@ void Game2::generateOutput() {
 	SDL_RenderFillRect(mRenderer, &wall);
 
 	// Draw the right wall
-	wall.x = 1024 - thickness;
-	wall.y = 0;
-	wall.w = thickness;
-	wall.h = 1024;
-	SDL_RenderFillRect(mRenderer, &wall);
+	//wall.x = 1024 - thickness;
+	//wall.y = 0;
+	//wall.w = thickness;
+	//wall.h = 1024;
+	//SDL_RenderFillRect(mRenderer, &wall);
+
+	// Draw the right paddle
+	SDL_Rect paddle2{
+		static_cast<int>(mPaddlePosP2.x),
+		static_cast<int>(mPaddlePosP2.y - paddleH / 2),
+		thickness,
+		static_cast<int>(paddleH)
+	};
+	SDL_RenderFillRect(mRenderer, &paddle2);
+
 
 	// Step 3: Swap the front buffer and back buffer
 	SDL_RenderPresent(mRenderer);
@@ -205,18 +226,29 @@ void Game2::updateGame() {
 	if (deltaTime > 0.05f) { deltaTime = 0.05f; }
 
 	// Update objects in game world as function of delta time
-
 	// Move the paddle based on the key pressed
-	if (mPaddleDir != 0) {
+	if (mPaddleDirP1 != 0) {
 		// Move the paddle 300 pixels per second based on deltatime
-		mPaddlePos.y += mPaddleDir * 300.0f * deltaTime;
+		mPaddlePosP1.y += mPaddleDirP1 * 300.0f * deltaTime;
 
 		// Make sure the paddle doesn't move off screen
-		if (mPaddlePos.y < (paddleH / 2.0f + thickness)) {
-			mPaddlePos.y = paddleH / 2.0f + thickness;
+		if (mPaddlePosP1.y < (paddleH / 2.0f + thickness)) {
+			mPaddlePosP1.y = paddleH / 2.0f + thickness;
 		}
-		else if (mPaddlePos.y > 768.0f - paddleH / 2.0f - thickness) {
-			mPaddlePos.y = 768.0f - paddleH / 2.0f - thickness;
+		else if (mPaddlePosP1.y > 768.0f - paddleH / 2.0f - thickness) {
+			mPaddlePosP1.y = 768.0f - paddleH / 2.0f - thickness;
+		}
+	}
+	if (mPaddleDirP2 != 0) {
+		// Move the paddle 300 pixels per second based on deltatime
+		mPaddlePosP2.y += mPaddleDirP2 * 300.0f * deltaTime;
+
+		// Make sure the paddle doesn't move off screen
+		if (mPaddlePosP2.y < (paddleH / 2.0f + thickness)) {
+			mPaddlePosP2.y = paddleH / 2.0f + thickness;
+		}
+		else if (mPaddlePosP2.y > 768.0f - paddleH / 2.0f - thickness) {
+			mPaddlePosP2.y = 768.0f - paddleH / 2.0f - thickness;
 		}
 	}
 
@@ -224,25 +256,53 @@ void Game2::updateGame() {
 	mBallPos.x += mBallVel.x * deltaTime;
 	mBallPos.y += mBallVel.y * deltaTime;
 
-	// Did we intersect with the paddle?
-	float diff = mPaddlePos.y - mBallPos.y;
+	// Get information for collision detection
+	float ballLeft = mBallPos.x - thickness / 2.0f;
+	float ballRight = mBallPos.x + thickness / 2.0f;
+
+	// Did we intersect with either paddle?
+	float diff1 = mPaddlePosP1.y - mBallPos.y;
+	float diff2 = mPaddlePosP2.y - mBallPos.y;
 	// Take absolute value of difference
-	diff = (diff > 0.0f) ? diff : -diff;
+	diff1 = (diff1 > 0.0f) ? diff1 : -diff1;
 	if (
 		// Our y-difference is small enough
-		diff <= paddleH / 2.0f &&
+		diff1 <= paddleH / 2.0f &&
 		// We are in the correct x-position
-		mBallPos.x <= 60.0f && mBallPos.x >= 55.0f &&
+		ballLeft <= mPaddlePosP1.x + thickness &&
+		ballRight >= mPaddlePosP1.x &&
 		// The ball is moving to the left
 		mBallVel.x < 0.0f)
 	{
-		mBallVel.x *= -1.0f;
+		// Change the ball direction
+		mBallVel.x *= -1;
+		mBallVel.x += ballIncreaseSpead;
+
+		// Move the paddle moveTowardsCenter pixels closer to the center
+		if (mPaddlePosP1.x + moveTowardsCenter <= 487) { mPaddlePosP1.x += moveTowardsCenter; }
+		
+	}
+	// Check right paddle
+	else if (
+		diff2 <= paddleH / 2.0f &&
+		ballRight >= mPaddlePosP2.x &&
+		ballLeft <= mPaddlePosP2.x + thickness &&
+		mBallVel.x > 0.0f
+		)
+	{
+		// Change the ball direction
+		mBallVel.x *= -1;
+		mBallVel.x -= ballIncreaseSpead;
+
+		// Move the paddle moveTowardsCenter pixels closer to the center
+		if (mPaddlePosP2.x - moveTowardsCenter >= 537) { mPaddlePosP2.x -= moveTowardsCenter; }	
 	}
 	// End the game if the ball goes off screen
-	else if (mBallPos.x <= 0) { mIsRunning = false; }
+	else if (mBallPos.x <= 0 || mBallPos.x > 1024) { mIsRunning = false; }
+	
 
 	// Reverse the direction of the ball when hitting the right wall
-	else if (mBallPos.x >= 1024 - thickness && mBallVel.x > 0.0f) { mBallVel.x *= -1; }
+	//else if (mBallPos.x >= 1024 - thickness && mBallVel.x > 0.0f) { mBallVel.x *= -1; }
 
 	
 	// Reverse the direction of the ball when hitting the top wall
@@ -250,5 +310,5 @@ void Game2::updateGame() {
 	if (mBallPos.y <= thickness && mBallVel.y < 0.0f) { mBallVel.y *= -1; }
 
 	// Reverse the direction of the ball when hitting the bottom wall
-	else if (mBallPos.y >= 768 - thickness && mBallVel.y > 0.0f) { mBallVel.y *= -1; }	
+	else if (mBallPos.y >= 768 - thickness && mBallVel.y > 0.0f) { mBallVel.y *= -1; }
 }

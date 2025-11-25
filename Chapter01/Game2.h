@@ -44,19 +44,24 @@ private:
 	// Game should continue to run while this is true
 	bool mIsRunning;
 
-	// Paddle coords position
-	Vector2 mPaddlePos;
+	// Paddle 1 coords position
+	Vector2 mPaddlePosP1;
+
+	// Direction of paddle 1
+	int mPaddleDirP1;
+
+	// Paddle 2 coords position
+	Vector2 mPaddlePosP2;
+
+	// Direction of paddle 2
+	int mPaddleDirP2;
 
 	// Ball coords position
 	Vector2 mBallPos;
 
-	// Keep track of the number of ticks
-	Uint32 mTicksCount;
-
-	// Direction of paddle
-	int mPaddleDir;
-
 	// Ball velocity
 	Vector2 mBallVel;
 
+	// Keep track of the number of ticks
+	Uint32 mTicksCount;
 };
