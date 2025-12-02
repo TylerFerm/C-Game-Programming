@@ -6,8 +6,8 @@
 
 const int thickness = 15;
 const float paddleH = 100.0f;
-const int moveTowardsCenter = 100;
-const int ballIncreaseSpead = 50;
+const int moveTowardsCenter = 10;
+const int ballIncreaseSpead = 5;
 
 Game2::Game2() : 
 	mWindow(nullptr), 
@@ -15,11 +15,11 @@ Game2::Game2() :
 	mRenderer(nullptr),
 	mPaddlePosP1(Vector2{ 50, 384 }),
 	mPaddlePosP2(Vector2{ 974, 384 }),
-	mBallPos(Vector2{ 512, 384 }),
+	//mBallPos(Vector2{ 512, 384 }),
 	mTicksCount(0),
 	mPaddleDirP1(0),
-	mPaddleDirP2(0),
-	mBallVel(Vector2{ -200.0f, 235 }) // Ball starts moving -200 pixels in x direction and 235 pixels in y direction
+	mPaddleDirP2(0)
+	//mBallVel(Vector2{ -200.0f, 235 }) // Ball starts moving -200 pixels in x direction and 235 pixels in y direction
 {}
 
 bool Game2::initialize() {
@@ -65,6 +65,11 @@ bool Game2::initialize() {
 		return false;
 	}
 
+	// Since everything is initialized, create the list of balls with one ball
+	Ball ball1 = Ball{ Vector2{ 512, 384 }, Vector2{ -200.0f, 235 } };
+	Ball ball2 = Ball{ Vector2{ 512, 384 }, Vector2{ 200.0f, 235 } };
+	ballList = { ball1, ball2 };
+	
 	// Since both the library and window/renderer were succesful, return true
 	return true;
 }
@@ -157,13 +162,22 @@ void Game2::generateOutput() {
 	SDL_SetRenderDrawColor(mRenderer, 255, 255, 255, 255);
 	
 	// Create the ball (converting the x, y coords from center to top left for SDL_Rect)
-	SDL_Rect ball{
-		static_cast<int>(mBallPos.x - thickness / 2),
-		static_cast<int>(mBallPos.y - thickness / 2),
-		thickness,
-		thickness
-	};
-	SDL_RenderFillRect(mRenderer, &ball);
+	for (int i = 0; i < ballList.size(); i++) {
+		SDL_Rect ball{
+			static_cast<int>(ballList[i].position.x - thickness / 2),
+			static_cast<int>(ballList[i].position.y - thickness / 2),
+			thickness,
+			thickness
+		};
+		SDL_RenderFillRect(mRenderer, &ball);
+	}
+	//SDL_Rect ball{
+	//	static_cast<int>(mBallPos.x - thickness / 2),
+	//	static_cast<int>(mBallPos.y - thickness / 2),
+	//	thickness,
+	//	thickness
+	//};
+	//SDL_RenderFillRect(mRenderer, &ball);
 
 	// Draw the paddle
 	SDL_Rect paddle{
@@ -253,62 +267,64 @@ void Game2::updateGame() {
 	}
 
 	// Update the position of the ball in terms of velocity
-	mBallPos.x += mBallVel.x * deltaTime;
-	mBallPos.y += mBallVel.y * deltaTime;
+	for (int i = 0; i < ballList.size(); i++) {
+		ballList[i].position.x += ballList[i].velocity.x * deltaTime;
+		ballList[i].position.y += ballList[i].velocity.y * deltaTime;
 
-	// Get information for collision detection
-	float ballLeft = mBallPos.x - thickness / 2.0f;
-	float ballRight = mBallPos.x + thickness / 2.0f;
+		// Get information for collision detection
+		float ballLeft = ballList[i].position.x - thickness / 2.0f;
+		float ballRight = ballList[i].position.x + thickness / 2.0f;
 
-	// Did we intersect with either paddle?
-	float diff1 = mPaddlePosP1.y - mBallPos.y;
-	float diff2 = mPaddlePosP2.y - mBallPos.y;
-	// Take absolute value of difference
-	diff1 = (diff1 > 0.0f) ? diff1 : -diff1;
-	if (
-		// Our y-difference is small enough
-		diff1 <= paddleH / 2.0f &&
-		// We are in the correct x-position
-		ballLeft <= mPaddlePosP1.x + thickness &&
-		ballRight >= mPaddlePosP1.x &&
-		// The ball is moving to the left
-		mBallVel.x < 0.0f)
-	{
-		// Change the ball direction
-		mBallVel.x *= -1;
-		mBallVel.x += ballIncreaseSpead;
+		// Did we intersect with either paddle?
+		float diff1 = mPaddlePosP1.y - ballList[i].position.y;
+		float diff2 = mPaddlePosP2.y - ballList[i].position.y;
+		// Take absolute value of difference
+		diff1 = (diff1 > 0.0f) ? diff1 : -diff1;
+		if (
+			// Our y-difference is small enough
+			diff1 <= paddleH / 2.0f &&
+			// We are in the correct x-position
+			ballLeft <= mPaddlePosP1.x + thickness &&
+			ballRight >= mPaddlePosP1.x &&
+			// The ball is moving to the left
+			ballList[i].velocity.x < 0.0f)
+		{
+			// Change the ball direction
+			ballList[i].velocity.x *= -1;
+			ballList[i].velocity.x += ballIncreaseSpead;
 
-		// Move the paddle moveTowardsCenter pixels closer to the center
-		if (mPaddlePosP1.x + moveTowardsCenter <= 487) { mPaddlePosP1.x += moveTowardsCenter; }
-		
+			// Move the paddle moveTowardsCenter pixels closer to the center
+			if (mPaddlePosP1.x + moveTowardsCenter <= 487) { mPaddlePosP1.x += moveTowardsCenter; }
+
+		}
+		// Check right paddle
+		else if (
+			diff2 <= paddleH / 2.0f &&
+			ballRight >= mPaddlePosP2.x &&
+			ballLeft <= mPaddlePosP2.x + thickness &&
+			ballList[i].velocity.x > 0.0f
+			)
+		{
+			// Change the ball direction
+			ballList[i].velocity.x *= -1;
+			ballList[i].velocity.x -= ballIncreaseSpead;
+
+			// Move the paddle moveTowardsCenter pixels closer to the center
+			if (mPaddlePosP2.x - moveTowardsCenter >= 537) { mPaddlePosP2.x -= moveTowardsCenter; }
+		}
+		// End the game if the ball goes off screen
+		else if (ballList[i].position.x <= 0 || ballList[i].position.x > 1024) { mIsRunning = false; }
+
+
+		// Reverse the direction of the ball when hitting the right wall
+		//else if (ballList[i].position.x >= 1024 - thickness && ballList[i].velocity.x > 0.0f) { ballList[i].velocity.x *= -1; }
+
+
+		// Reverse the direction of the ball when hitting the top wall
+		// Check to also make sure that the ball is moving toward top wall so it doesn't get stuck
+		if (ballList[i].position.y <= thickness && ballList[i].velocity.y < 0.0f) { ballList[i].velocity.y *= -1; }
+
+		// Reverse the direction of the ball when hitting the bottom wall
+		else if (ballList[i].position.y >= 768 - thickness && ballList[i].velocity.y > 0.0f) { ballList[i].velocity.y *= -1; }
 	}
-	// Check right paddle
-	else if (
-		diff2 <= paddleH / 2.0f &&
-		ballRight >= mPaddlePosP2.x &&
-		ballLeft <= mPaddlePosP2.x + thickness &&
-		mBallVel.x > 0.0f
-		)
-	{
-		// Change the ball direction
-		mBallVel.x *= -1;
-		mBallVel.x -= ballIncreaseSpead;
-
-		// Move the paddle moveTowardsCenter pixels closer to the center
-		if (mPaddlePosP2.x - moveTowardsCenter >= 537) { mPaddlePosP2.x -= moveTowardsCenter; }	
-	}
-	// End the game if the ball goes off screen
-	else if (mBallPos.x <= 0 || mBallPos.x > 1024) { mIsRunning = false; }
-	
-
-	// Reverse the direction of the ball when hitting the right wall
-	//else if (mBallPos.x >= 1024 - thickness && mBallVel.x > 0.0f) { mBallVel.x *= -1; }
-
-	
-	// Reverse the direction of the ball when hitting the top wall
-	// Check to also make sure that the ball is moving toward top wall so it doesn't get stuck
-	if (mBallPos.y <= thickness && mBallVel.y < 0.0f) { mBallVel.y *= -1; }
-
-	// Reverse the direction of the ball when hitting the bottom wall
-	else if (mBallPos.y >= 768 - thickness && mBallVel.y > 0.0f) { mBallVel.y *= -1; }
 }

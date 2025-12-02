@@ -3,11 +3,18 @@
 #pragma once
 
 #include "SDL/SDL.h"
+#include <vector>
 
 // Declare a vector that has both x and y components (a container for coords)
 struct Vector2 {
 	float x;
 	float y;
+};
+
+// Declare a vector for the ball, containing position and velocity
+struct Ball {
+	Vector2 position;
+	Vector2 velocity;
 };
 
 class Game2
@@ -64,4 +71,7 @@ private:
 
 	// Keep track of the number of ticks
 	Uint32 mTicksCount;
+
+	// Keep track of all the balls in play
+	std::vector<Ball> ballList;
 };
