@@ -5,6 +5,9 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Alt Source Files">
+      <UniqueIdentifier>{7ee6df82-ba9c-444d-af1d-0ab1f6488e5c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp">
@@ -34,6 +37,9 @@
     <ClCompile Include="BGSpriteComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Game2.cpp">
+      <Filter>Alt Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -59,6 +65,12 @@
     </ClInclude>
     <ClInclude Include="BGSpriteComponent.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game2.h">
+      <Filter>Alt Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor2.h">
+      <Filter>Alt Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
