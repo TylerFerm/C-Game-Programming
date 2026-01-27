@@ -11,7 +11,7 @@
 class Game2
 {
 public:
-	// Default initializer of the game class
+	// Default initialize of the game class
 	Game2();
 
 	// Initialize the game, returning true if all elements are initialized correctly
@@ -23,7 +23,7 @@ public:
 	// Shutdown the game by safely closing what needs to be closed
 	void shutdown();
 
-	// Add or remove a new actor tp/from the list of actors
+	// Add or remove a new actor to/from the list of actors
 	void addActor(class Actor* actor);
 	void removeActor(class Actor* actor);
 

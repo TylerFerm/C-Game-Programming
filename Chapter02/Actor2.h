@@ -15,9 +15,17 @@ public:
 		Dead
 	};
 
-	// Create the constructor (making sure each actor has a reference to game)
-	// Dependency injection: actor constructor recieves a pointer to create another actor or...
-	// ...access other required Game functions
+	/*
+	The constructor for the Actor class. Adds the actor to the list of all actors in game.
+	
+	Dependency injection: actor constructor receives a pointer to create another actor or...
+	...access other required Game functions
+
+	Parameters:
+		Game* game: A pointer to the game object
+
+	Return: nothing.
+	*/
 	Actor2(class Game* game);
 
 	// Deconstructor (virtual as each object may need to be deconstructed in a different way)
@@ -50,7 +58,7 @@ public:
 	// Getter for the pointer to the game class (just so actor can pass it along if necessary)
 	class Game* getGame() { return game; }
 
-	// Add or remove componetns from the actor
+	// Add or remove components from the actor
 	void addComponent(class Component* component);
 	void removeComponent(class Component* component);
 
