@@ -4,6 +4,10 @@
 #include <vector>
 #include "Math.h"
 
+// Forward deceleration
+class Game2;
+class Component2;
+
 // Define the base class for all game objects (actors)
 class Actor2
 {
@@ -26,7 +30,7 @@ public:
 
 	Return: nothing.
 	*/
-	Actor2(class Game* game);
+	Actor2(Game2* game);
 
 	// Deconstructor (virtual as each object may need to be deconstructed in a different way)
 	virtual ~Actor2();
@@ -37,11 +41,10 @@ public:
 	void update(float deltaTime);
 
 	// Updates all the components attached to the actor (not overridable)
-	// TODO: Learn more about this function by looking at the code
 	void updateComponents(float delatTime);
 
 	// The overridable update actor function that can be customized without messing up the engine code
-	virtual void updateActor(float deltaTime);
+	virtual void updateActor(float deltaTime) {};
 
 	// Getter and setter for position (const to make this as a read only function)
 	const Vector2& getPosition() const { return position; }
@@ -56,11 +59,11 @@ public:
 	void setRotation(float rotation) { rotation = this->rotation; }
 
 	// Getter for the pointer to the game class (just so actor can pass it along if necessary)
-	class Game* getGame() { return game; }
+	Game2* getGame() { return game; }
 
 	// Add or remove components from the actor
-	void addComponent(class Component* component);
-	void removeComponent(class Component* component);
+	void addComponent(Component2* component);
+	void removeComponent(Component2* component);
 
 private:
 	// Store the state of the actor
@@ -72,9 +75,9 @@ private:
 	float rotation;
 
 	// Store the list of components attached to the actor
-	std::vector <class Component*> components;
+	std::vector <Component2*> components;
 
 	// Store the pointer to the main game object
-	class Game* game;
+	Game2* game;
 
 };

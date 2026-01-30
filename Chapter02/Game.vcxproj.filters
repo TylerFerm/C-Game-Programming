@@ -43,6 +43,9 @@
     <ClCompile Include="Actor2.cpp">
       <Filter>Alt Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Component2.cpp">
+      <Filter>Alt Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">

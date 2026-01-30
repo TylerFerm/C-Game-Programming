@@ -6,7 +6,7 @@
 #include <algorithm>
 
 
-Actor2::Actor2(Game* game)
+Actor2::Actor2(Game2* game)
 	:state(Active)				// Set the actor as active
 	, position(Vector2::Zero)	// Set the initial position of the actor to be x=0,y=0
 	, scale(1.0f)				// Set the scale to be normal (which is 1)
@@ -39,4 +39,39 @@ void Actor2::update(float deltatime) {
 	}
 }
 
-// TODO: Continue Actor2.cpp
+// Update each component attached to this actor
+void Actor2::updateComponents(float deltatime) {
+
+	// Loop through all the components and call their update function
+	for (Component2* comp : components) {
+		comp->update(deltatime);
+	}
+}
+
+// Attach a component to this actor
+void Actor2::addComponent(Component2* component) {
+	// Find the place to insert the new component
+	int updateOrder = component->getUpdateOrder();
+
+	// Create an iterator to pass to the insert function
+	auto iter = components.begin();
+
+	// Loop through the components until the correct spot is found
+	while (iter != components.end()) {
+		// If the update order is less than the current component, then break
+		if (updateOrder < (*iter)->getUpdateOrder()) { break; }
+		iter++;
+	}
+	
+	// Insert the component into the right place to keep sorted order
+	components.insert(iter, component);
+}
+
+// Remove a component from this actor
+void Actor2::removeComponent(Component2* component) {
+	// Find the location of the component that is to be removed
+	auto iter = std::find(components.begin(), components.end(), component);
+
+	// Check to make sure the removed component is actually in the list of components. If so, remove
+	if (iter != components.end()) { components.erase(iter); }
+}

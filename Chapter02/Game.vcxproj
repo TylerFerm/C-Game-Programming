@@ -16,6 +16,7 @@
     <ClCompile Include="AnimSpriteComponent.cpp" />
     <ClCompile Include="BGSpriteComponent.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="Component2.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Game2.cpp" />
     <ClCompile Include="Main.cpp" />
