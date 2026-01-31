@@ -24,12 +24,12 @@ public:
 	void shutdown();
 
 	// Add or remove a new actor to/from the list of actors
-	void addActor(class Actor* actor);
-	void removeActor(class Actor* actor);
+	void addActor(class Actor2* actor);
+	void removeActor(class Actor2* actor);
 
 	// Add or remove a new sprite t0/from the list of sprites
-	void addSprite(class SpriteComponent* sprite);
-	void removeSprite(class SpriteComponent* sprite);
+	void addSprite(class SpriteComponent2* sprite);
+	void removeSprite(class SpriteComponent2* sprite);
 
 	// TODO: Discover why this function exists
 	SDL_Texture* GetTexture(const std::string& fileName);
@@ -48,17 +48,17 @@ private:
 	std::unordered_map <std::string, SDL_Texture*> textures;
 
 	// Store a vector of all the actors in the game
-	std::vector <class Actor*> actors;
+	std::vector <class Actor2*> actors;
 
 	// Store a vector of all the pending actors in the game
 	// This is needed to handle the case where, while updating the actors (looping over the actors vector)...
 	// ...you decide to create a new actor. In this case, you cannot add an element to the actors vector because...
 	// ...you are iterating over it. Once iteration is done, then you can move this actors to the main actors vector
-	std::vector <class Actor*> pendingActors;
+	std::vector <class Actor2*> pendingActors;
 
 	// All the sprite components drawn
 	// TODO: discover more about what this does
-	std::vector <class SpriteComponent*> sprites;
+	std::vector <class SpriteComponent2*> sprites;
 
 	// Create the window for the game
 	SDL_Window* window;

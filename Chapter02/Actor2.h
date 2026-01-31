@@ -51,7 +51,7 @@ public:
 	void setPosition(const Vector2& pos) { position = pos; }
 
 	// Getter and setter for scale
-	const float setScale() const { return scale; }
+	const float getScale() const { return scale; }
 	void setScale(float scale) { scale = this->scale; }
 
 	// Getter and setter for rotation

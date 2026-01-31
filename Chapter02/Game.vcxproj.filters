@@ -46,6 +46,9 @@
     <ClCompile Include="Component2.cpp">
       <Filter>Alt Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SpriteComponent2.cpp">
+      <Filter>Alt Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -79,6 +82,9 @@
       <Filter>Alt Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Component2.h">
+      <Filter>Alt Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteComponent2.h">
       <Filter>Alt Source Files</Filter>
     </ClInclude>
   </ItemGroup>
