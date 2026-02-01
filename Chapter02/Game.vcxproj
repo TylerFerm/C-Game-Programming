@@ -14,7 +14,9 @@
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="Actor2.cpp" />
     <ClCompile Include="AnimSpriteComponent.cpp" />
+    <ClCompile Include="AnimSpriteComponent2.cpp" />
     <ClCompile Include="BGSpriteComponent.cpp" />
+    <ClCompile Include="BGSpriteComponent2.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Component2.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -29,7 +31,9 @@
     <ClInclude Include="Actor.h" />
     <ClInclude Include="Actor2.h" />
     <ClInclude Include="AnimSpriteComponent.h" />
+    <ClInclude Include="AnimSpriteComponent2.h" />
     <ClInclude Include="BGSpriteComponent.h" />
+    <ClInclude Include="BGSpriteComponent2.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Component2.h" />
     <ClInclude Include="Game.h" />

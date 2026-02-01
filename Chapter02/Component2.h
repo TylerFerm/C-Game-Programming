@@ -24,7 +24,7 @@ public:
 
 protected:
 	// The actor that will own component
-	class Actor2* owner;
+	Actor2* owner;
 
 	// The update owner of a component
 	int updateOrder;

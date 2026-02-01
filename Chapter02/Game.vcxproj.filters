@@ -49,6 +49,12 @@
     <ClCompile Include="SpriteComponent2.cpp">
       <Filter>Alt Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AnimSpriteComponent2.cpp">
+      <Filter>Alt Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BGSpriteComponent2.cpp">
+      <Filter>Alt Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -85,6 +91,12 @@
       <Filter>Alt Source Files</Filter>
     </ClInclude>
     <ClInclude Include="SpriteComponent2.h">
+      <Filter>Alt Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimSpriteComponent2.h">
+      <Filter>Alt Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BGSpriteComponent2.h">
       <Filter>Alt Source Files</Filter>
     </ClInclude>
   </ItemGroup>
