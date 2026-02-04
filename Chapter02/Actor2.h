@@ -61,6 +61,10 @@ public:
 	// Getter for the pointer to the game class (just so actor can pass it along if necessary)
 	Game2* getGame() { return game; }
 
+	// Get and/or set the state of the actor
+	State getState() const { return state; }
+	void setState(State state) { this->state = state; }
+
 	// Add or remove components from the actor
 	void addComponent(Component2* component);
 	void removeComponent(Component2* component);

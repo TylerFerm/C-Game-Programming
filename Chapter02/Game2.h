@@ -32,7 +32,7 @@ public:
 	void removeSprite(class SpriteComponent2* sprite);
 
 	// TODO: Discover why this function exists
-	SDL_Texture* GetTexture(const std::string& fileName);
+	SDL_Texture* getTexture(const std::string& fileName);
 
 private:
 	// Define the 3 key steps of the game loop
@@ -40,11 +40,12 @@ private:
 	void updateGame();
 	void generateOutput();
 
-	// TODO: Discover what these functions are used for
+	// Chapter 2 game specific functions for loading assets and creating actors
 	void loadData();
 	void unloadData();
 
 	// Keep a map of the textures loaded (TODO: learn more about how this works)
+	// This is so that multiple actors can use the same texture without having to load it from the file again
 	std::unordered_map <std::string, SDL_Texture*> textures;
 
 	// Store a vector of all the actors in the game
@@ -56,8 +57,7 @@ private:
 	// ...you are iterating over it. Once iteration is done, then you can move this actors to the main actors vector
 	std::vector <class Actor2*> pendingActors;
 
-	// All the sprite components drawn
-	// TODO: discover more about what this does
+	// All the sprite components drawn (acts similar to the actors vector)
 	std::vector <class SpriteComponent2*> sprites;
 
 	// Create the window for the game
@@ -75,4 +75,5 @@ private:
 
 	// Game specific
 	// TODO: Once ship is created then add the code
+	// class Ship* ship;
 };
