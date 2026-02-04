@@ -6,7 +6,7 @@
 #include "Actor2.h"
 #include "SpriteComponent2.h"
 #include "BGSpriteComponent2.h"
-#include "Ship.h" // TODO: Change to Ship2 when it is made
+#include "Ship2.h"
 
 Game2::Game2()
 	: window(nullptr)

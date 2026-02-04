@@ -31,7 +31,7 @@ public:
 	void addSprite(class SpriteComponent2* sprite);
 	void removeSprite(class SpriteComponent2* sprite);
 
-	// TODO: Discover why this function exists
+	// Get a texture either from file or from a map of textures
 	SDL_Texture* getTexture(const std::string& fileName);
 
 private:
@@ -74,6 +74,5 @@ private:
 	bool updatingActors;
 
 	// Game specific
-	// TODO: Once ship is created then add the code
-	// class Ship* ship;
+	class Ship2* ship;
 };

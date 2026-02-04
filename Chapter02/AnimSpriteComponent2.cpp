@@ -6,8 +6,7 @@ AnimSpriteComponent2::AnimSpriteComponent2(Actor2* owner, int drawOrder)
 	:SpriteComponent2(owner, drawOrder) // Call the constructor of the inherited class
 	, currentFrame(0.0f)
 	, animFPS(24.0f)
-{
-}
+{}
 
 
 void AnimSpriteComponent2::update(float deltatime)

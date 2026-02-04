@@ -2,7 +2,7 @@
 
 #include "SpriteComponent2.h"
 #include "Actor2.h"
-#include "Game.h"
+#include "Game2.h"
 
 
 SpriteComponent2::SpriteComponent2(Actor2* owner, int drawOrder) 
@@ -13,13 +13,13 @@ SpriteComponent2::SpriteComponent2(Actor2* owner, int drawOrder)
 	textureHeight(0)
 {
 	// Add this sprite to the list of sprites in game.
-	// TODO: uncomment this owner->getGame()->addSprite(this);
+	owner->getGame()->addSprite(this);
 }
 
 
 SpriteComponent2::~SpriteComponent2() {
 	// Remove this sprite from the list of sprites in game
-	// TODO: uncomment this owner->getGame()->removeSprite(this);
+	owner->getGame()->removeSprite(this);
 }
 
 

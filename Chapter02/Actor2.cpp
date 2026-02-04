@@ -14,13 +14,13 @@ Actor2::Actor2(Game2* game)
 	, game(game)				// Pass the game object to the actor
 {
 	// Add this instance of the actor to the list of all actors in game
-	// TODO: Uncomment when game.cpp is done game->addActor(this);
+	game->addActor(this);
 }
 
 Actor2::~Actor2()
 {
 	// Call the removeActor function from Game to remove the actor from the list of all actors
-	// TODO: Uncomment when game.cpp is done game->removeActor(this);
+	game->removeActor(this);
 
 	// Remove every component that is attached to this actor
 	while (!components.empty()) {
