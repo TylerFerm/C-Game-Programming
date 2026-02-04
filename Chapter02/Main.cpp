@@ -6,16 +6,31 @@
 // See LICENSE in root directory for full details.
 // ----------------------------------------------------------------
 
-#include "Game.h"
+//#include "Game.h"
+//
+//int main(int argc, char** argv)
+//{
+//	Game game;
+//	bool success = game.Initialize();
+//	if (success)
+//	{
+//		game.RunLoop();
+//	}
+//	game.Shutdown();
+//	return 0;
+//}
+
+
+#include "Game2.h"
 
 int main(int argc, char** argv)
 {
-	Game game;
-	bool success = game.Initialize();
+	Game2 game;
+	bool success = game.initialize();
 	if (success)
 	{
-		game.RunLoop();
+		game.runLoop();
 	}
-	game.Shutdown();
+	game.shutdown();
 	return 0;
 }

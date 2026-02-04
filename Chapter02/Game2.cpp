@@ -88,7 +88,7 @@ void Game2::processInput() {
 	}
 
 	// Process ship input
-	// ship->processKeyboard(state)
+	ship->processKeyboard(state);
 }
 
 
@@ -125,7 +125,7 @@ void Game2::updateGame() {
 	pendingActors.clear();
 
 	// Store all the dead actors in a temp vector so we can safely remove them from actors
-	std::vector<Actor*> deadActors;
+	std::vector<Actor2*> deadActors;
 	for (auto actor : actors) {
 		if (actor->getState() == Actor2::Dead) {
 			deadActors.emplace_back(actor);
@@ -153,7 +153,34 @@ void Game2::generateOutput() {
 
 
 void Game2::loadData() {
+	// Create the player ship
+	ship = new Ship2(this);
+	ship->setPosition(Vector2(100.0f, 384.0f));
+	ship->setScale(1.5f);
 
+	// Create an actor for the background (doesn't need a subclass)
+	Actor2* temp = new Actor2(this);
+	temp->setPosition(Vector2(512.0f, 384.0f));
+
+	// Create the far background
+	BGSpriteComponent2* bg = new BGSpriteComponent2(temp);
+	bg->setScreenSize(Vector2(1024.0f, 768.0f));
+	std::vector<SDL_Texture*> bgtexs = {
+		getTexture("Assets/Farback01.png"),
+		getTexture("Assets/Farback02.png")
+	};
+	bg->setBackgroundTextures(bgtexs);
+	bg->setScrollSpeed(-100.0f);
+	
+	// Create the closer background
+	bg = new BGSpriteComponent2(temp, 50);
+	bg->setScreenSize(Vector2(1024.0f, 768.0f));
+	bgtexs = {
+		getTexture("Assets/Stars.png"),
+		getTexture("Assets/Stars.png")
+	};
+	bg->setBackgroundTextures(bgtexs);
+	bg->setScrollSpeed(-200.0f);
 }
 
 

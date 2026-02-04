@@ -28,12 +28,12 @@ void SpriteComponent2::draw(SDL_Renderer* renderer) {
 	if (texture) {
 		// Scale the width and height to be based on the owner's scale
 		SDL_Rect r;
-		r.w = textureWidth * owner->getScale();
-		r.h = textureHeight * owner->getScale();
+		r.w = static_cast<int>(textureWidth * owner->getScale());
+		r.h = static_cast<int>(textureHeight * owner->getScale());
 
 		// Center the rectangle around the position of the owner
-		r.x = owner->getPosition().x - r.w / 2;
-		r.y = owner->getPosition().y - r.h / 2;
+		r.x = static_cast<int>(owner->getPosition().x - r.w / 2);
+		r.y = static_cast<int>(owner->getPosition().y - r.h / 2);
 
 		// Draw (making sure to convert angle from radians to degrees)
 		SDL_RenderCopyEx(renderer, texture, nullptr, &r, -Math::ToDegrees(owner->getRotation()), nullptr, SDL_FLIP_NONE);
