@@ -8,6 +8,9 @@
 #include <string>
 #include <vector>
 
+// Forward declaration
+class Skeleton;
+
 class Game2
 {
 public:
@@ -75,4 +78,5 @@ private:
 
 	// Game specific
 	class Ship2* ship;
+	Skeleton* skeleton;
 };

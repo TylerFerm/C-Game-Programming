@@ -10,7 +10,8 @@ SpriteComponent2::SpriteComponent2(Actor2* owner, int drawOrder)
 	texture(nullptr),
 	drawOrder(drawOrder),
 	textureWidth(0),
-	textureHeight(0)
+	textureHeight(0),
+	flip(SDL_FLIP_NONE)
 {
 	// Add this sprite to the list of sprites in game.
 	owner->getGame()->addSprite(this);
@@ -36,7 +37,7 @@ void SpriteComponent2::draw(SDL_Renderer* renderer) {
 		r.y = static_cast<int>(owner->getPosition().y - r.h / 2);
 
 		// Draw (making sure to convert angle from radians to degrees)
-		SDL_RenderCopyEx(renderer, texture, nullptr, &r, -Math::ToDegrees(owner->getRotation()), nullptr, SDL_FLIP_NONE);
+		SDL_RenderCopyEx(renderer, texture, nullptr, &r, -Math::ToDegrees(owner->getRotation()), nullptr, flip);
 	}
 }
 

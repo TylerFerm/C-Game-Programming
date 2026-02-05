@@ -25,6 +25,7 @@
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="Ship2.cpp" />
+    <ClCompile Include="Skeleton.cpp" />
     <ClCompile Include="SpriteComponent.cpp" />
     <ClCompile Include="SpriteComponent2.cpp" />
   </ItemGroup>
@@ -42,6 +43,7 @@
     <ClInclude Include="Math.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="Ship2.h" />
+    <ClInclude Include="Skeleton.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="SpriteComponent2.h" />
   </ItemGroup>

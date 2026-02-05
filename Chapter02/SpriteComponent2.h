@@ -30,10 +30,16 @@ public:
 	int getTextureWidth() const { return textureWidth; }
 	int getTextureHeight() const { return textureHeight; }
 
+	// Flip the sprite the desired way
+	void setFlip(SDL_RendererFlip flip = SDL_FLIP_NONE) { this->flip = flip; }
+
 // Allow inherited classes to use these member variables
 protected:
 	SDL_Texture* texture;
 	int drawOrder;
 	int textureWidth;
 	int textureHeight;
+
+	// Determine whether to flip the sprite
+	SDL_RendererFlip flip;
 };

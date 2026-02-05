@@ -7,6 +7,8 @@
 #include "SpriteComponent2.h"
 #include "BGSpriteComponent2.h"
 #include "Ship2.h"
+#include "Skeleton.h"
+
 
 Game2::Game2()
 	: window(nullptr)
@@ -89,6 +91,9 @@ void Game2::processInput() {
 
 	// Process ship input
 	ship->processKeyboard(state);
+
+	// Process skeleton input
+	skeleton->processKeyboard(state);
 }
 
 
@@ -162,6 +167,11 @@ void Game2::loadData() {
 	ship->setPosition(Vector2(100.0f, 384.0f));
 	ship->setScale(1.5f);
 
+	// Create the skeleton
+	skeleton = new Skeleton(this);
+	skeleton->setPosition(Vector2(300.0f, 584.0f));
+	skeleton->setScale(1.5f);
+	
 	// Create an actor for the background (doesn't need a subclass)
 	Actor2* temp = new Actor2(this);
 	temp->setPosition(Vector2(512.0f, 384.0f));

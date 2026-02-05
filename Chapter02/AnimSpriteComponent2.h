@@ -29,6 +29,9 @@ public:
 	// Get the animation frame rate
 	float getAnimFPS() const { return animFPS; }
 
+	// Get the name of the current animation
+	std::string getCurrentAnimation() const { return currentAnimation; }
+
 	// Set the animation frame rate
 	void setAnimFPS(float fps) { animFPS = fps; }
 

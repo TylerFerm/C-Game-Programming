@@ -58,6 +58,9 @@
     <ClCompile Include="Ship2.cpp">
       <Filter>Alt Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Skeleton.cpp">
+      <Filter>Alt Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -103,6 +106,9 @@
       <Filter>Alt Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Ship2.h">
+      <Filter>Alt Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Skeleton.h">
       <Filter>Alt Source Files</Filter>
     </ClInclude>
   </ItemGroup>
