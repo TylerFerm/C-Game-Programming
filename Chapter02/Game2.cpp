@@ -11,7 +11,7 @@
 Game2::Game2()
 	: window(nullptr)
 	, renderer(nullptr)
-	, isRunning(nullptr)
+	, isRunning(true)
 	, updatingActors(false)
 {}
 
@@ -98,7 +98,11 @@ void Game2::updateGame() {
 	// ...converts it into seconds for physics/movement, and clamps it to prevent simulation instability.
 	
 	// Do nothing until 16ms has passed since the last frame (capping at ~60 FPS - 1000ms/60FPS ~= 16.7 ms)
-	while (!SDL_TICKS_PASSED(SDL_GetTicks(), ticksCount + 16));
+	// Textbook way of doing this: while (!SDL_TICKS_PASSED(SDL_GetTicks(), ticksCount + 16));
+	// Better way:
+	Uint32 target = ticksCount + 16;
+	Uint32 now = SDL_GetTicks();
+	if (now < target) { SDL_Delay(target - now); }
 
 	// Compute deltatime (time since last frame in seconds)
 	// This is done so movement becomes frame-rate independent. Ex) position += velocity * deltatime
@@ -279,6 +283,7 @@ void Game2::addSprite(SpriteComponent2* sprite) {
 	auto iter = sprites.begin();
 	while (iter != sprites.end()) {
 		if (drawOrder < (*iter)->getDrawOrder()) { break; }
+		iter++;
 	}
 
 	// Insert into the vector
