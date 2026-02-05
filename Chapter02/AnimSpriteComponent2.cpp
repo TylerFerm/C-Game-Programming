@@ -6,6 +6,7 @@ AnimSpriteComponent2::AnimSpriteComponent2(Actor2* owner, int drawOrder)
 	:SpriteComponent2(owner, drawOrder) // Call the constructor of the inherited class
 	, currentFrame(0.0f)
 	, animFPS(24.0f)
+	, currentAnimation("")
 {}
 
 
@@ -15,28 +16,42 @@ void AnimSpriteComponent2::update(float deltatime)
 	SpriteComponent2::update(deltatime);
 
 	// As long as there are textures in the animation vector, update animation
-	if (animTextures.size() > 0) {
+	if (currentAnimation != "") {
 		// Update the current frame based on frame rate and delta time
 		currentFrame += animFPS * deltatime;
 
 		// Warp current frame if needed
-		while (currentFrame >= animTextures.size()) {
-			currentFrame -= animTextures.size();
+		while (currentFrame >= animations[currentAnimation].size()) {
+			currentFrame -= animations[currentAnimation].size();
 		}
 
 		// Set the current texture
-		setTexture(animTextures[static_cast<int>(currentFrame)]);
+		setTexture(animations[currentAnimation][static_cast<int>(currentFrame)]);
 	}
 }
 
 
-void AnimSpriteComponent2::setAnimTextures(const std::vector<SDL_Texture*>& textures) {
-	// Store the vector of textures
-	animTextures = textures;
-
-	// If the textures have been set, then set the active texture to the first frame
-	if (animTextures.size() > 0) {
-		currentFrame = 0.0f;
-		setTexture(animTextures[0]);
+void AnimSpriteComponent2::addAnimation(const std::string animName, const std::vector<SDL_Texture*>& textures) {
+	// If animation is not in map, and textures isn't empty, add it
+	if (animations.find(animName) == animations.end() && textures.size() > 0) {
+		animations[animName] = textures;
 	}
+}
+
+
+bool AnimSpriteComponent2::setCurrentAnimation(const std::string animName)
+{
+	// Check to make sure animName is in the map
+	auto iter = animations.find(animName);
+	
+	if (iter != animations.end()) {
+		// Set the animation to play from the beginning
+		currentAnimation = animName;
+		currentFrame = 0.0f;
+		setTexture(iter->second[0]);
+		return true;
+	}
+
+	// Animation could not be sent
+	return false;
 }

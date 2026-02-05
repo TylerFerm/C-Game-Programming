@@ -17,7 +17,8 @@ Ship2::Ship2(Game2* game)
 		game->getTexture("Assets/Ship03.png"),
 		game->getTexture("Assets/Ship04.png")
 	};
-	asc->setAnimTextures(anims);
+	asc->addAnimation("Flying Ship", anims);
+	asc->setCurrentAnimation("Flying Ship");
 }
 
 

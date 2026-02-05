@@ -4,6 +4,8 @@
 
 #include "SpriteComponent2.h"
 #include <vector>
+#include <unordered_map>
+#include <string>
 
 // Forward declaration
 class Actor2;
@@ -19,8 +21,11 @@ public:
 	void update(float deltatime) override;
 
 	// Set the textures used for animation
-	void setAnimTextures(const std::vector<SDL_Texture*>& textures);
+	void addAnimation(const std::string animName, const std::vector<SDL_Texture*>& textures);
 
+	// Set the current animation
+	bool setCurrentAnimation(const std::string animName);
+	
 	// Get the animation frame rate
 	float getAnimFPS() const { return animFPS; }
 
@@ -29,7 +34,9 @@ public:
 
 private:
 	// Store all the textures in the animation
-	std::vector<SDL_Texture*> animTextures;
+	// Old textbook way of storing one animation: std::vector<SDL_Texture*> animTextures;
+	// Store the textures for multiple types of animations
+	std::unordered_map<std::string, std::vector<SDL_Texture*>> animations;
 
 	// Keep track of the current frame displayed
 	float currentFrame;
@@ -37,4 +44,7 @@ private:
 	// Keep track of the animation frame rate
 	// This exists to keep track of time (not be render frame rate) to ensure consistent animation speed across devices
 	float animFPS;
+
+	// Keep track of the current animation
+	std::string currentAnimation;
 };
