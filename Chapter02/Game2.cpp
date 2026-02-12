@@ -8,6 +8,7 @@
 #include "BGSpriteComponent2.h"
 #include "Ship2.h"
 #include "Skeleton.h"
+#include "TileMapComponent.h"
 
 
 Game2::Game2()
@@ -195,6 +196,13 @@ void Game2::loadData() {
 	};
 	bg->setBackgroundTextures(bgtexs);
 	bg->setScrollSpeed(-200.0f);
+
+	// Create the tilemap
+	Actor2* tilemap = new Actor2(this);
+	TileMapComponent* map1 = new TileMapComponent(tilemap, 90);
+	map1->loadCSV("Assets/MapLayer1.csv");
+	map1->setTexture(getTexture("Assets/Tiles.png"));
+	map1->setTileDimensions(32, 32);
 }
 
 
