@@ -72,6 +72,9 @@ public:
 	State getState() const { return state; }
 	void setState(State state) { this->state = state; }
 
+	// Get the direction forward the actor is facing
+	Vector2 getForward() const { return Vector2(Math::Cos(rotation), -Math::Sin(rotation)); }
+
 	// Add or remove components from the actor
 	void addComponent(Component* component);
 	void removeComponent(Component* component);
