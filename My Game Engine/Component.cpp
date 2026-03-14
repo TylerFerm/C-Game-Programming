@@ -16,3 +16,8 @@ Component::Component(Actor* owner, int updateOrder)
 Component::~Component() {
 	owner->removeComponent(this);
 }
+
+// Overridable process input function for components
+void Component::processInput(const uint8_t* keyState)
+{
+}

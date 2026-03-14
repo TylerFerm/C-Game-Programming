@@ -19,6 +19,9 @@ public:
 	// Update this component by delta time
 	virtual void update(float deltatime) {};
 
+	// Process input for this component (overridable)
+	virtual void processInput(const uint8_t* keyState);
+
 	// Getter for the updateOrder variable (const for read only)
 	int getUpdateOrder() const { return updateOrder; }
 

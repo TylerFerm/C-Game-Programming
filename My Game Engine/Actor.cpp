@@ -48,6 +48,24 @@ void Actor::updateComponents(float deltatime) {
 	}
 }
 
+// The general process input function that is called by Game
+void Actor::processInput(const uint8_t* keyState) {
+	// Check if the actor is active
+	if (state == Active) {
+		// Process the input for all the components
+		for (auto comp : components) {
+			comp->processInput(keyState);
+		}
+
+		// Now process any actor specific input (unrelated to components)
+		actorInput(keyState);
+	}
+}
+
+// The overridable actor input function (change to fit the need of subclass actors)
+void Actor::actorInput(const uint8_t* keyState) {}
+
+
 // Attach a component to this actor
 void Actor::addComponent(Component* component) {
 	// Find the place to insert the new component

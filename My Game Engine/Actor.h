@@ -3,6 +3,7 @@
 #pragma once
 #include <vector>
 #include "Math.h"
+#include <cstdint>
 
 // Forward deceleration
 class Game;
@@ -45,6 +46,12 @@ public:
 
 	// The overridable update actor function that can be customized without messing up the engine code
 	virtual void updateActor(float deltaTime) {};
+
+	// Processes input generally (not overridable - called in Game)
+	void processInput(const uint8_t* keyState);
+
+	// The overridable ctor-specific input code
+	virtual void actorInput(const uint8_t* keyState);
 
 	// Getter and setter for position (const to make this as a read only function)
 	const Vector2& getPosition() const { return position; }
