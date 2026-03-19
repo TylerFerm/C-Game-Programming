@@ -81,6 +81,8 @@
     <ClInclude Include="MoveComponent.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="InputComponent.h" />
+    <ClInclude Include="InputComponent.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
