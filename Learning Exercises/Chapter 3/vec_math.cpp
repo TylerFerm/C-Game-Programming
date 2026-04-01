@@ -15,22 +15,28 @@ struct Vector3 {
 
 // ── TASK 1: Implement these functions ──────────────────────────────
 
-Vector2 Add(Vector2 a, Vector2 b)    { 
-    /* TODO */ 
-    return Vector2(a.x+b.x, a.y+b.y); 
+Vector2 Add(Vector2 a, Vector2 b) {return Vector2(a.x+b.x, a.y+b.y); }
+Vector2 Subtract(Vector2 a, Vector2 b) {return Vector2(a.x-b.x, a.y-b.y); }
+Vector2 Scale(Vector2 v, float s) {return Vector2(v.x * s, v.y * s); }
+float   Length(Vector2 v) {return sqrt(v.x*v.x + v.y*v.y); }
+float   LengthSquared(Vector2 v) {return v.x * v.x + v.y * v.y; }
+Vector2 Normalize(Vector2 v) {
+    float length = Length(v);
+    if (length != 0) {
+        return Vector2(v.x / length, v.y / length);
+    }
+    else {
+        return v;
+    }
+    
 }
-Vector2 Subtract(Vector2 a, Vector2 b) { /* TODO */ return {}; }
-Vector2 Scale(Vector2 v, float s)      { /* TODO */ return {}; }
-float   Length(Vector2 v)               { /* TODO */ return 0.f; }
-float   LengthSquared(Vector2 v)        { /* TODO */ return 0.f; }
-Vector2 Normalize(Vector2 v)           { /* TODO — handle zero-length! */ return {}; }
 
 // ── TASK 2: Also implement for Vector3 ────────────────────────────
 
-Vector3 Add3(Vector3 a, Vector3 b)    { /* TODO */ return {}; }
-Vector3 Scale3(Vector3 v, float s)    { /* TODO */ return {}; }
-float   Length3(Vector3 v)             { /* TODO */ return 0.f; }
-Vector3 Normalize3(Vector3 v)         { /* TODO */ return {}; }
+Vector3 Add3(Vector3 a, Vector3 b) { /* TODO */ return {}; }
+Vector3 Scale3(Vector3 v, float s) { /* TODO */ return {}; }
+float   Length3(Vector3 v) { /* TODO */ return 0.f; }
+Vector3 Normalize3(Vector3 v) { /* TODO */ return {}; }
 
 // ── Helper for float comparison ────────────────────────────────────
 bool Near(float a, float b, float eps = 0.001f) {

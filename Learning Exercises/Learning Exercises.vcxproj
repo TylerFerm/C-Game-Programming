@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{598642aa-b293-4294-91f8-047a7159dc21}</ProjectGuid>
+    <ProjectGuid>{45de7170-916f-4ed5-9767-b79595c5e18c}</ProjectGuid>
     <RootNamespace>LearningExercises</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -126,6 +126,13 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="Learning Exercises.slnx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Chapter 3\steering.cpp" />
+    <ClCompile Include="Chapter 3\vec_math.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
